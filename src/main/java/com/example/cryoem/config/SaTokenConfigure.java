@@ -1,4 +1,4 @@
-package com.example.cryoem.core;
+package com.example.cryoem.config;
 
 import cn.dev33.satoken.config.SaTokenConfig;
 import org.springframework.context.annotation.Bean;
