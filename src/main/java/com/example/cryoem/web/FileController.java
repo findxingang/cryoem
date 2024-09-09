@@ -30,4 +30,10 @@ public class FileController {
         return success ? Result.ok("上传成功") : Result.error("上传失败");
     }
 
+    @GetMapping("/string")
+    public Result<String> downloadString(String fileName) {
+        String fileString = fileService.downloadString(fileName);
+        return Result.ok(fileString);
+    }
+
 }

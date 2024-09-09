@@ -12,4 +12,6 @@ public interface FileService {
     void download(HttpServletResponse response, String fileName);
 
     boolean upload(MultipartFile file);
+
+    String downloadString(String fileName);
 }

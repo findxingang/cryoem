@@ -13,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 /**
  * @author wangxingang
@@ -61,5 +64,24 @@ public class CryoemFileServiceImpl implements FileService {
             throw new BaseException(StrUtil.format("文件上传失败: {}", e.getMessage()), e);
         }
         return true;
+    }
+
+    @Override
+    public String downloadString(String fileName) {
+        // 使用 ClassLoader 获取资源文件
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+        if (inputStream == null) {
+            throw new RuntimeException("文件不存在");
+        }
+
+        // 使用 BufferedReader 读取文件内容并转换为字符串
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
